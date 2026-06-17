@@ -34,4 +34,17 @@ public class ComboService {
             return comboRepository.save(combo);
         }).orElseThrow(() -> new RuntimeException("Combo no encontrado"));
     }
+
+    public java.util.Optional<Combo> buscarPorId(Long id) {
+        return comboRepository.findById(id); 
+       
+    }
+
+    public boolean eliminarCombo(Long id) {
+        if (comboRepository.existsById(id)) {
+            comboRepository.deleteById(id);
+            return true;
+        }
+        return false;
+    }
 }

@@ -60,4 +60,16 @@ public class DespachoService {
             return repository.save(despacho);
         });
     }
+
+    public Optional<Despacho> obtenerPorId(Long id) {
+        return repository.findById(id);
+    }
+
+    public boolean eliminarDespacho(Long id) {
+        if (repository.existsById(id)) {
+            repository.deleteById(id);
+            return true;
+        }
+        return false;
+    }
 }

@@ -47,4 +47,22 @@ public class DespachoController {
                 .map(ResponseEntity::ok)
                 .orElseThrow(() -> new RuntimeException("No se encontró el envío con ID: " + id));
     }
+
+    @Operation(summary = "Obtener despacho por ID", description = "Busca un despacho específico en la base de datos usando su ID numérico")
+    @GetMapping("/{id}")
+    public ResponseEntity<Despacho> obtenerPorId(@PathVariable Long id) {
+        return service.obtenerPorId(id)
+                .map(ResponseEntity::ok)
+                .orElseThrow(() -> new RuntimeException("No se encontró el despacho con ID: " + id));
+    }
+
+    @Operation(summary = "Eliminar despacho por ID", description = "Elimina físicamente el registro del despacho de la base de datos y confirma el éxito")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> eliminarDespacho(@PathVariable Long id) {
+        if (service.eliminarDespacho(id)) {
+            return ResponseEntity.ok("Eliminado correctamente"); // Devuelve 200 OK con el mensaje en texto
+        }
+        return ResponseEntity.status(404).body("No se pudo eliminar: Despacho no encontrado");
+    }
+
 }
