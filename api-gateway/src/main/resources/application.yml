@@ -1,58 +1,88 @@
 server:
   port: 9090
 
+jwt:
+  secret: "493358340235739058340598340598340598340598340598"
+
 spring:
   application:
     name: api-gateway
   cloud:
     gateway:
       routes:
+        # Ruta de AUTH: libre, sin filtro
+        - id: auth-service
+          uri: http://localhost:8091
+          predicates:
+            - Path=/auth/**
+
+        # Rutas protegidas con el filtro JWT
         - id: catalogo-service
           uri: http://localhost:8081
           predicates:
             - Path=/catalogo/**
+          filters:
+            - AuthenticationFilter
 
         - id: ventas-service
           uri: http://localhost:8084
           predicates:
             - Path=/ventas/**
+          filters:
+            - AuthenticationFilter
 
         - id: clientes-service
           uri: http://localhost:8088
           predicates:
             - Path=/clientes/**
+          filters:
+            - AuthenticationFilter
 
         - id: abastecimiento-service
           uri: http://localhost:8083
           predicates:
             - Path=/abastecimiento/**
+          filters:
+            - AuthenticationFilter
 
         - id: promociones-service
           uri: http://localhost:8085
           predicates:
             - Path=/promociones/**
+          filters:
+            - AuthenticationFilter
 
         - id: envios-service
           uri: http://localhost:8086
           predicates:
             - Path=/envios/**
+          filters:
+            - AuthenticationFilter
 
         - id: fidelizacion-service
           uri: http://localhost:8087
           predicates:
             - Path=/fidelizacion/**
+          filters:
+            - AuthenticationFilter
 
         - id: postventa-service
           uri: http://localhost:8090
           predicates:
             - Path=/postventa/**
+          filters:
+            - AuthenticationFilter
 
         - id: resenas-service
           uri: http://localhost:8089
           predicates:
             - Path=/resenas/**
+          filters:
+            - AuthenticationFilter
 
         - id: combos-service
           uri: http://localhost:8082
           predicates:
             - Path=/combos/**
+          filters:
+            - AuthenticationFilter
