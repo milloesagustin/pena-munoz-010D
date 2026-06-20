@@ -50,7 +50,7 @@ Sistema administrativo para la gestion de catalogo, inventario, ventas, abasteci
 
 ### API Gateway
 
-| Biblioteca | Version | Uso |
+| Biblioteca | Uso |
 |---|---|
 | `spring-cloud-starter-gateway` | Enrutamiento reactivo hacia los microservicios |
 | `spring-cloud-dependencies` | Gestion de versiones compatibles de Spring Cloud |
