@@ -30,20 +30,20 @@ Sistema administrativo para la gestion de catalogo, inventario, ventas, abasteci
 ### Persistencia
 
 | Biblioteca | Uso |
-|---|---|---|
+|---|---|
 | `mysql-connector-j` | Driver JDBC para conexion con MySQL |
 | `lombok` | Generacion automatica de getters, setters, constructores (`@Data`, `@AllArgsConstructor`, `@NoArgsConstructor`) |
 
 ### Documentacion de API
 
 | Biblioteca | Uso |
-|---|---|---|
+|---|---|
 | `springdoc-openapi-starter-webmvc-ui` | Generacion automatica de documentacion Swagger/OpenAPI |
 
 ### Seguridad y Autenticacion (service-auth y api-gateway)
 
 | Biblioteca | Uso |
-|---|---|---|
+|---|---|
 | `jjwt-api` | Generacion y firma de tokens JWT |
 | `jjwt-impl` | Implementacion en tiempo de ejecucion de JJWT |
 | `jjwt-jackson` | Serializacion JSON de los claims del token |
@@ -51,14 +51,14 @@ Sistema administrativo para la gestion de catalogo, inventario, ventas, abasteci
 ### API Gateway
 
 | Biblioteca | Version | Uso |
-|---|---|---|
+|---|---|
 | `spring-cloud-starter-gateway` | Enrutamiento reactivo hacia los microservicios |
 | `spring-cloud-dependencies` | Gestion de versiones compatibles de Spring Cloud |
 
 ### Pruebas Unitarias
 
 | Biblioteca | Uso |
-|---|---|---|
+|---|---|
 | `junit-jupiter` (JUnit 5) | (incluido en starter-test) | Framework de pruebas unitarias |
 | `mockito-core` | (incluido en starter-test) | Mocks de repositorios y WebClient para pruebas aisladas |
 | `reactor-test` | (incluido en starter-test) | Pruebas de flujos reactivos (`Mono`, `Flux`) |
