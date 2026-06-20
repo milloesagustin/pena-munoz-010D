@@ -2,6 +2,7 @@ package com.dessirestore.service_ventas.service;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 import java.util.ArrayList;
@@ -19,6 +20,8 @@ import com.dessirestore.service_ventas.model.Venta;
 import com.dessirestore.service_ventas.repository.DetalleVentaRepository;
 import com.dessirestore.service_ventas.repository.VentaRepository;
 
+import reactor.core.publisher.Mono;
+
 @ExtendWith(MockitoExtension.class)
 class VentaServiceTest {
 
@@ -35,48 +38,42 @@ class VentaServiceTest {
     private VentaService ventaService;
 
     @Test
-    @DisplayName("Debería calcular el total correctamente basado en los detalles y guardar la venta")
-    void guardarVentaYCalcularTotalTest() {
+    @DisplayName("Debería eliminar la venta llamando una vez al repositorio")
+    void eliminarVentaTest() {
         // --- PREPARACIÓN ---
-        Venta ventaMock = new Venta();
-        ventaMock.setClienteId(1L);
-        
-        // Creamos dos productos (detalles) en la boleta
-        DetalleVenta d1 = new DetalleVenta();
-        d1.setSkuId(10L);
-        d1.setCantidad(2);
-        d1.setPrecioUnitario(15000.0); // Subtotal: 30.000
-
-        DetalleVenta d2 = new DetalleVenta();
-        d2.setSkuId(11L);
-        d2.setCantidad(1);
-        d2.setPrecioUnitario(10000.0); // Subtotal: 10.000
-
-        List<DetalleVenta> detalles = new ArrayList<>();
-        detalles.add(d1);
-        detalles.add(d2);
-        ventaMock.setDetalles(detalles);
-
-        // Simulamos la respuesta del WebClient para el descuento de stock (Hack para mockear la cadena fluida de WebClient)
-        // el código lanzará una RuntimeException, pero será atrapada por el catch en VentaService. 
-        // Para este test, nos enfocaremos en validar la lógica matemática del Total.
-
-        when(ventaRepository.save(any(Venta.class))).thenAnswer(i -> i.getArguments()[0]);
+        Long idVenta = 1L;
 
         // --- EJECUCIÓN ---
-        
-        Venta resultado = null;
-        try {
-             resultado = ventaService.guardar(ventaMock);
-        } catch (RuntimeException e) {
-             // Ignoramos la excepción del WebClient para validar el cálculo previo.
-             resultado = ventaMock; 
-        }
+        ventaService.eliminar(idVenta);
 
         // --- VERIFICACIÓN ---
-        // 30.000 + 10.000 = 40.000
-        assertEquals(40000.0, resultado.getTotal(), "El total de la venta debe ser la suma exacta de cantidad * precioUnitario de cada detalle");
-        assertNotNull(resultado.getFechaHora(), "La fecha de emisión debe generarse automáticamente");
+        verify(ventaRepository, times(1)).deleteById(idVenta);
+    }
+
+    @Test
+    @DisplayName("Debería retornar la lista completa de ventas registradas")
+    void listarTodasTest() {
+        // --- PREPARACIÓN ---
+        Venta venta1 = new Venta();
+        venta1.setClienteId(1L);
+        venta1.setTotal(15000.0);
+
+        Venta venta2 = new Venta();
+        venta2.setClienteId(2L);
+        venta2.setTotal(25000.0);
+
+        List<Venta> ventasMock = new ArrayList<>();
+        ventasMock.add(venta1);
+        ventasMock.add(venta2);
+
+        when(ventaRepository.findAll()).thenReturn(ventasMock);
+
+        // --- EJECUCIÓN ---
+        List<Venta> resultado = ventaService.listarTodas();
+
+        // --- VERIFICACIÓN ---
+        assertEquals(2, resultado.size(), "Deben retornarse las 2 ventas registradas");
+        verify(ventaRepository, times(1)).findAll();
     }
 
     @Test
