@@ -256,8 +256,9 @@ POST   http://localhost:9090/auth/login
 Estos microservicios exponen su propia documentacion interactiva de Swagger/OpenAPI directamente en su puerto (sin pasar por el Gateway):
 
 ```
-service-combos          -> http://localhost:8082/swagger-ui/index.html
-service-envios          -> http://localhost:8086/swagger-ui/index.html
-service-fidelizacion    -> http://localhost:8087/swagger-ui/index.html
+service-combos          -> http://localhost:9090/webjars/swagger-ui/index.html?urls.primaryName=Servicio+Combos
+service-envios          -> http://localhost:9090/webjars/swagger-ui/index.html?urls.primaryName=Servicio+Envíos
+service-fidelizacion    -> http://localhost:9090/webjars/swagger-ui/index.html?urls.primaryName=Servicio+Fidelización
+service-auth            -> http://localhost:9090/webjars/swagger-ui/index.html
 
 ```
