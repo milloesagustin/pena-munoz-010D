@@ -1,8 +1,8 @@
 package com.dessirestore.service_auth.model;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -29,13 +29,13 @@ public class Usuario {
     private String contrasena;
     private String correo;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
-        name = "usuario_roles", 
-        joinColumns = @JoinColumn(name = "usuario_id"), 
+        name = "usuario_roles",
+        joinColumns = @JoinColumn(name = "usuario_id"),
         inverseJoinColumns = @JoinColumn(name = "rol_id")
     )
-    private Set<Rol> roles = new HashSet<>();
+    private List<Rol> roles;
 
 
 }

@@ -2,6 +2,7 @@ package com.dessirestore.service_auth.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer; // <-- IMPORTANTE
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -14,16 +15,22 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
-        return http.csrf(csrf -> csrf.disable())
+        return http
+                // 1. ESTO ARREGLA EL 403: Le dice a Spring Security que no bloquee el POST por venir del Gateway
+                .cors(Customizer.withDefaults()) 
+                
+                // 2. Desactivar CSRF (Obligatorio en APIs REST)
+                .csrf(csrf -> csrf.disable())
+                
+                // 3. Nuestra lista VIP intocable
                 .authorizeHttpRequests(auth -> auth
-                    // --- LISTA VIP (Sin Token) ---
                     .requestMatchers(
-                        "/auth/**",               // Permite tus endpoints de login, registro y el JSON de Swagger
-                        "/v3/api-docs/**",        // Permite configuraciones internas de OpenAPI
-                        "/swagger-ui/**",         // Permite los colores, javascript y botones de Swagger
-                        "/swagger-ui.html"        // Permite la página web base
+                        "/auth/**",               
+                        "/v3/api-docs/**",        
+                        "/swagger-ui/**",         
+                        "/swagger-ui.html",
+                        "/error"        
                     ).permitAll()
-                    
                     .anyRequest().authenticated()
                 ).build();
     }
