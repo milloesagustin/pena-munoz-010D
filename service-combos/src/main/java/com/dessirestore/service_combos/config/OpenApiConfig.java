@@ -1,4 +1,4 @@
-package com.dessirestore.service_fidelizacion.config;
+package com.dessirestore.service_combos.config;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
@@ -19,21 +19,22 @@ public class OpenApiConfig {
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
                 .info(new Info()
-                        .title("API DesireeStore - Servicio de Fidelización")
+                        .title("API DesireeStore - Servicio de Combos")
                         .version("1.0")
                         .description("Documentación centralizada a través del Gateway"))
+                // ESTO ES LO QUE SOLUCIONA EL ENRUTAMIENTO HACIA EL GATEWAY:
                 .servers(List.of(
                         new Server().url("http://localhost:9090").description("Servidor a través del Gateway")
                 ))
-                // 1. Registramos el esquema de seguridad
+                // 1. Registramos el uso del esquema de autenticación
                 .addSecurityItem(new SecurityRequirement().addList("SwaggerLogin"))
-                // 2. Activamos el formulario OAUTH2 apuntando a tu adaptador
+                // 2. Definimos la ventana que pedirá Usuario y Contraseña
                 .components(new Components()
                         .addSecuritySchemes("SwaggerLogin", new SecurityScheme()
                                 .type(SecurityScheme.Type.OAUTH2)
                                 .flows(new OAuthFlows()
                                         .password(new OAuthFlow()
-                                                // ¡Esta ruta es la clave para que pida usuario y clave!
+                                                // La ruta exacta de tu Gateway hacia tu nuevo adaptador
                                                 .tokenUrl("http://localhost:9090/auth/swagger-login")
                                         )
                                 )

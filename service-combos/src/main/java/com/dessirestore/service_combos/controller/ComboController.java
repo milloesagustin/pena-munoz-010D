@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/combos")
+@RequestMapping("/combos")
 @CrossOrigin(origins = "*")
 @Tag(name = "Combos", description = "Gestión de paquetes promocionales")
 public class ComboController {

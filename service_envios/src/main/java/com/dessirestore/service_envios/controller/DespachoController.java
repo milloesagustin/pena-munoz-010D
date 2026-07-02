@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/envios")
+@RequestMapping("/envios")
 @CrossOrigin(origins = "*") // Permite que Swagger y el Gateway lo llamen
 @Tag(name = "Despachos", description = "Operaciones relacionadas con la logística y envíos")
 public class DespachoController {

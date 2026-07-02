@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/fidelizacion")
+@RequestMapping("/fidelizacion")
 @CrossOrigin(origins = "*")
 @Tag(name = "Fidelización", description = "Gestión de puntos de clientes")
 public class FidelizacionController {
